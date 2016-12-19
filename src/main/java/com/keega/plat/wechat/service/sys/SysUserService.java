@@ -36,6 +36,10 @@ public class SysUserService implements ISysUserService {
             throws SQLException {
         if (session.getAttribute("user") == null) {
             SNSUserInfo snsUserInfo = (SNSUserInfo) wxUserInfo.get("snsUserInfo");
+            if (null == snsUserInfo){//有时候授权失败获取不到信息。
+                modelAndView.setViewName("/views/error/500");
+                return;
+            }
             String wxOpenId = snsUserInfo.getOpenId();//snsUserInfo为null表示不是激活时候。
             if (!isInSys(wxOpenId)) {//如果openId没有和系统用户绑定，则跳转至绑定页面
                 modelAndView.addObject("snsUserInfo", wxUserInfo.get("snsUserInfo"));

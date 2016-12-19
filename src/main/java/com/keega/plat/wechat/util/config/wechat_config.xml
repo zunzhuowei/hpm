@@ -1,0 +1,32 @@
+<xml>
+    <!--用于配置用户登录名和密码字段-->
+    <user_login>
+        <username>H01SZ</username>
+        <password>H01T5</password>
+    </user_login>
+
+    <!--session要存放的信息字段-->
+    <user_config>
+        <field name="A0101">姓名</field>
+        <field name="E0127">工号</field>
+        <field name="B0110">单位</field>
+        <field name="E0122">部门</field>
+        <field name="E01A1">岗位</field>
+    </user_config>
+
+    <!-- 首页菜单 -->
+    <user_menus>
+        <menu name="myInfo" url="控制器地址">我的信息</menu>
+        <menu name="mySalary" url="控制器地址">我的薪酬</menu>
+    </user_menus>
+
+    <!--我的信息显示字段-->
+    <myInfo>
+
+    </myInfo>
+
+    <!--我的薪酬显示字段-->
+    <mySalary>
+
+    </mySalary>
+</xml>
