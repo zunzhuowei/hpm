@@ -1,4 +1,5 @@
 <xml>
+
     <!--用于配置用户登录名和密码字段-->
     <user_login>
         <username>H01SZ</username>
@@ -16,9 +17,18 @@
 
     <!-- 首页菜单 -->
     <user_menus>
-        <menu name="myInfo" url="控制器地址">我的信息</menu>
-        <menu name="mySalary" url="控制器地址">我的薪酬</menu>
+        <menu name="waitThing" url="控制器地址" desc="我的代办事宜">代办事宜</menu>
+        <menu name="myInfo" url="控制器地址" desc="我的个人信息">我的信息</menu>
+        <menu name="mySalary" url="控制器地址" desc="我的个人薪酬">我的薪酬</menu>
+        <!--<menu name="workInfo" url="控制器地址" desc="我的工时信息">工时信息</menu>
+        <menu name="myCheck" url="控制器地址" desc="我的个人考勤">我的考勤</menu>-->
     </user_menus>
+
+    <!-- 代办事宜字段 -->
+   <!-- <waitThing>
+
+    </waitThing>-->
+
 
     <!--我的信息显示字段-->
     <myInfo>
@@ -29,4 +39,15 @@
     <mySalary>
 
     </mySalary>
+
+    <!-- 工时信息字段 -->
+   <!-- <workInfo>
+
+    </workInfo>-->
+
+    <!--我的考勤字段  -->
+    <!--<myCheck>
+
+    </myCheck>-->
+
 </xml>
