@@ -1,6 +1,7 @@
 package com.keega.plat.wechat.util.config;
 
 /**
+ * 菜单定制配置实体类
  * Created by zun.wei on 2016/12/19.
  * To change this template use File|Default Setting
  * |Editor|File and Code Templates|Includes|File Header
@@ -11,6 +12,15 @@ public class MenuConfig {
     private String url;
     private String menuDesc;
     private String menuText;
+    private String imgUrl;
+
+    public String getImgUrl() {
+        return imgUrl;
+    }
+
+    public void setImgUrl(String imgUrl) {
+        this.imgUrl = imgUrl;
+    }
 
     public String getName() {
         return name;

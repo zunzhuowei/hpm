@@ -11,7 +11,6 @@
     <script src="<@s.url '/js/jquery-1.8.3.min.js'/>" type="text/javascript"></script>
     <script src="<@s.url '/marry/js/bootstrap.min.js'/>" type="text/javascript"></script>
     <link rel="stylesheet" href="<@s.url '/marry/css/bootstrap.min.css'/>">
-
     <style type="text/css">
         .png {
             width: 50px;
@@ -30,15 +29,15 @@
     </style>
 </head>
 <body>
-<div class="list-group" id="homeId">
-   <#-- <a href="#" class="list-group-item active">
+<div class="list-group">
+${user.A0101}--${user.E0122}
+    <a href="#" class="list-group-item active">
         <h3 class="list-group-item-heading hcenter">
             <center>外包事业部</center>
         </h3>
-    </a>-->
-
-    <#--<a href="/wait/thing/home" class="list-group-item">
-        <span class="badge">4</span> &lt;#&ndash; 有多少条代办的显示 &ndash;&gt;
+    </a>
+    <a href="/wait/thing/home" class="list-group-item">
+        <span class="badge">4</span>
         <img src="/images/index_28.png" class="img-responsive png pull-left" style="margin-top:-4px;"
         />
         <h4 class="list-group-item-heading">
@@ -79,7 +78,7 @@
             <img src="/images/index_47.png" class="img-responsive pull-left png img-circle" style="margin-top:-4px;"/>
         </h4>
         <p class="list-group-item-text">&nbsp;&nbsp;&nbsp;我的考勤信息</p>
-    </a>-->
+    </a>
 </div>
 <div class="main_nav_bottom">
     <nav class="navbar navbar-default navbar-fixed-bottom" style="background-color: #337ab7">
@@ -108,34 +107,6 @@
         </div>
     </nav>
 </div>
-<script>
-    //前台先将其转换为json对象:
-    //javascript方式:var json = eval(后台传后来的json串);
-    //jQuery方法:var json = $.parseJSON(后台传后来的json串);
 
-    $(document).ready(function(){
-        var jsonData = eval(${menuJson});
-        var h = "<a href=\"#\" class=\"list-group-item active\">\n"+
-                "        <h3 class=\"list-group-item-heading hcenter\">\n"+
-                "            <center>外包事业部</center>\n"+
-                "        </h3>\n"+
-                "    </a>";
-        for(var i = 0;i<jsonData.length;i++) {
-            h += "<a href=\""+jsonData[i].url+"\" class=\"list-group-item\">\n"+
-                    "        <h4 class=\"list-group-item-heading\">\n"+
-                    "            <img src=\""+jsonData[i].imgUrl+"\" class=\"img-responsive png pull-left\" " +
-                    "style=\"margin-top:-4px;\"/>\n"+
-                    "            &nbsp;&nbsp;"+jsonData[i].menuText+"\n"+
-                    "        </h4>\n"+
-                    "        <p class=\"list-group-item-text\">\n"+
-                    "            &nbsp;&nbsp;&nbsp;"+jsonData[i].menuDesc+"\n"+
-                    "        </p>\n"+
-                    "    </a>";
-        }
-
-        $("#homeId").html(h);
-    });
-
-</script>
 </body>
 </html>

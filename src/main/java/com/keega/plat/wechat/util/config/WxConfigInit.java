@@ -13,19 +13,36 @@ import java.util.*;
 public class WxConfigInit {
 
     private static Document document;
-    //private static Map<String,Map<String,Object>> wxConfigData;
+    private static Map<String,Map<String,Object>> wxConfigData;
 
-    private WxConfigInit() {
+    public static Map<String, Map<String, Object>> getWxConfigData() {
+        if (wxConfigData == null) return getWxCofigInitData();
+        return wxConfigData;
     }
+
+    /*public static void init() {
+        if (wxConfigData == null) {
+            synchronized (WxConfigInit.class) {
+                if (wxConfigData == null) {
+                    wxConfigData = getWxCofigInitData();
+                }
+            }
+        }
+    }*/
+
+    private WxConfigInit() {}
 
     static {
         if (document == null) {
             document = XMLUtil.getWechatDocument();
         }
+        if (wxConfigData == null) {
+            wxConfigData = getWxCofigInitData();
+        }
     }
 
 
-    public void test(){
+    private static Map<String, Map<String, Object>> getWxCofigInitData(){
         Map<String, Map<String, Object>> wxConfigData = new HashMap<String, Map<String, Object>>();
         Element root = document.getRootElement();
 
@@ -50,9 +67,9 @@ public class WxConfigInit {
         user_login_map.put("username", user_login.elementTextTrim("username"));
         user_login_map.put("password", user_login.elementTextTrim("password"));
 
-        //session要存放的信息字段
+        //session 中User要存放的信息字段
         List<Element> fields = user_config.elements();
-        List<Object> names = new ArrayList<Object>();
+        List<String> names = new ArrayList<String>();
         for (int i = 0; i < fields.size(); i++) {
             names.add(fields.get(i).attributeValue("name"));
         }
@@ -60,21 +77,43 @@ public class WxConfigInit {
 
         //菜单要显示的内容
         List<Element> menusElements = user_menus.elements();
-        List<Object> menus = new ArrayList<Object>();
-        for (int i = 0; i < menus.size(); i++) {
+        List<MenuConfig> menus = new ArrayList<MenuConfig>();
+        for (int i = 0; i < menusElements.size(); i++) {
             MenuConfig menuConfig = new MenuConfig();
             menuConfig.setName(menusElements.get(i).attributeValue("name"));
-            menuConfig.setName(menusElements.get(i).attributeValue("url"));
-            menuConfig.setName(menusElements.get(i).attributeValue("desc"));
-            menuConfig.setName(menusElements.get(i).getTextTrim());
+            menuConfig.setUrl(menusElements.get(i).attributeValue("conUrl"));
+            menuConfig.setMenuDesc(menusElements.get(i).attributeValue("desc"));
+            menuConfig.setImgUrl(menusElements.get(i).attributeValue("imgUrl"));
+            menuConfig.setMenuText(menusElements.get(i).getTextTrim());
             menus.add(menuConfig);
         }
-        user_menus_map.put("munus", menus);
+        user_menus_map.put("menus", menus);
 
+        //我的信息显示字段
+        List<Element> myInfos = myInfo.elements();
+        List<String> myInfosName = new ArrayList<String>();
+        for (int i = 0; i < myInfos.size(); i++) {
+            myInfosName.add(myInfos.get(i).attributeValue("name")
+                    +" as "+myInfos.get(i).attributeValue("textField"));
+        }
+        myInfo_map.put("fields", myInfosName);
 
+        //我的薪酬显示字段
+        List<Element> mySalarys = myInfo.elements();
+        List<String> mySalaryName = new ArrayList<String>();
+        for (int i = 0; i < mySalarys.size(); i++) {
+            mySalaryName.add(mySalarys.get(i).attributeValue("name"));
+        }
+        mySalary_map.put("fields", mySalaryName);
 
+        //全部包装到Map<String,Map<String,Object>>中
         wxConfigData.put("user_login_map", user_login_map);
-        wxConfigData.put("user_config_map", user_config_map);
+        wxConfigData.put("user_config_map", user_config_map);//
+        wxConfigData.put("user_menus_map", user_menus_map);//user_menus_map
+        wxConfigData.put("myInfo_map", myInfo_map);
+        wxConfigData.put("mySalary_map", mySalary_map);
+
+        return wxConfigData;
     }
 
 }

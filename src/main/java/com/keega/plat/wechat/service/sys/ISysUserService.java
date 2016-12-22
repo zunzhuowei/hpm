@@ -1,9 +1,11 @@
 package com.keega.plat.wechat.service.sys;
 
+import com.keega.plat.wechat.util.config.MenuConfig;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpSession;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -35,7 +37,7 @@ public interface ISysUserService {
      * @param modelAndView spring模型与视图
      */
     public void setModelAndView(Map<String, Object> wxUserInfo, ModelAndView modelAndView,
-                                HttpSession session)throws SQLException;
+                                HttpSession session,List<MenuConfig> menus)throws SQLException;
 
     /**
      * 微信openId与hr个人账号绑定

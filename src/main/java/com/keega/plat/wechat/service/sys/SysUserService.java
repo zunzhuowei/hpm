@@ -1,12 +1,15 @@
 package com.keega.plat.wechat.service.sys;
 
+import com.keega.common.utils.JsonUtil;
 import com.keega.plat.wechat.dao.sys.ISysUserDao;
 import com.keega.plat.wechat.oauth2.pojo.SNSUserInfo;
+import com.keega.plat.wechat.util.config.MenuConfig;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.ModelAndView;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -32,23 +35,26 @@ public class SysUserService implements ISysUserService {
     }
 
     @Override//设置模型与视图
-    public void setModelAndView(Map<String, Object> wxUserInfo, ModelAndView modelAndView,HttpSession session)
+    public void setModelAndView(Map<String, Object> wxUserInfo, ModelAndView modelAndView
+            ,HttpSession session,List<MenuConfig> menus)
             throws SQLException {
-        if (session.getAttribute("user") == null) {
-            SNSUserInfo snsUserInfo = (SNSUserInfo) wxUserInfo.get("snsUserInfo");
-            if (null == snsUserInfo){//有时候授权失败获取不到信息。
-                modelAndView.setViewName("/views/error/500");
-                return;
-            }
-            String wxOpenId = snsUserInfo.getOpenId();//snsUserInfo为null表示不是激活时候。
-            if (!isInSys(wxOpenId)) {//如果openId没有和系统用户绑定，则跳转至绑定页面
+        SNSUserInfo snsUserInfo = (SNSUserInfo) wxUserInfo.get("snsUserInfo");
+        if (null == snsUserInfo){//有时候授权失败获取不到信息。
+            modelAndView.setViewName("/views/error/500");
+            return;
+        }
+        boolean a = !isInSys(snsUserInfo.getOpenId());
+        if (session.getAttribute("user") == null || a) {
+            if (a) {//如果openId没有和系统用户绑定，则跳转至绑定页面
                 modelAndView.addObject("snsUserInfo", wxUserInfo.get("snsUserInfo"));
                 modelAndView.setViewName("/views/wechat/activation/activation");
             } else {
-                session.setAttribute("user", getSysUserByOpenId(wxOpenId));
+                session.setAttribute("user", getSysUserByOpenId(snsUserInfo.getOpenId()));
+                modelAndView.addObject("menuJson",JsonUtil.obj2json(menus));
                 modelAndView.setViewName("/views/wechat/home");
             }
         } else {
+            modelAndView.addObject("menuJson",JsonUtil.obj2json(menus));
             modelAndView.setViewName("/views/wechat/home");
         }
     }
@@ -73,6 +79,7 @@ public class SysUserService implements ISysUserService {
     @Override//用户退订时，更新回默认openId值
     public void updateOpenId2default(String fromUser,HttpSession session) throws SQLException {
         sysUserDao.updateOpenId2Default(fromUser);//还原openid
+        session.removeAttribute("user");
         session.invalidate();
         //TODO 清空session,然后不起作用，微信有缓存，需要等待一会才可以清除user。
         // setModelAndView这里多加判断可能可以，不过会在平时使用的时候多查询一次数据库。得不偿失

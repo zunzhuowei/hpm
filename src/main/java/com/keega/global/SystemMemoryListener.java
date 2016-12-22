@@ -41,7 +41,7 @@ public class SystemMemoryListener implements ServletContextListener {
 
 		System.out.println("|     4、系统参数加载完毕                        |");
 
-		System.out.println("|     5、WeChat configuration file init complete |");
+		//System.out.println("|     5、WeChat configuration file init complete |");
 
 		System.out.println("——————————————————————————");
 		

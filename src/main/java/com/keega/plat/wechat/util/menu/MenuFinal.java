@@ -9,6 +9,7 @@ package com.keega.plat.wechat.util.menu;
  */
 public class MenuFinal {
 
+    //snsapi_base 、snsapi_userinfo --获取授权信息类型
     //public static final String HOME_URL = "http://161818x71d.iask.in/wx/home";
 
     //public static final String KEEGA_URL = "http://161818x71d.iask.in/wx/home";
@@ -17,21 +18,21 @@ public class MenuFinal {
             "?appid=wxdac78f942674b126" +
             "&redirect_uri=http%3A%2F%2F161818x71d.iask.in%2Fwx%2Fhome" +
             "&response_type=code" +
-            "&scope=snsapi_userinfo&state=STATE" +
+            "&scope=snsapi_base&state=STATE" +
             "&connect_redirect=1#wechat_redirect";
 
     public static final String KEEGA_URL = "https://open.weixin.qq.com/connect/oauth2/authorize" +
             "?appid=wxdac78f942674b126" +
             "&redirect_uri=http%3A%2F%2F161818x71d.iask.in%2Fwx%2Fhome" +
             "&response_type=code" +
-            "&scope=snsapi_userinfo&state=STATE" +
+            "&scope=snsapi_base&state=STATE" +
             "&connect_redirect=1#wechat_redirect";
 
     public static final String BIND_URL = "https://open.weixin.qq.com/connect/oauth2/authorize" +
             "?appid=wxdac78f942674b126" +
             "&redirect_uri=http%3A%2F%2F161818x71d.iask.in%2Fwx%2Factivation" +
             "&response_type=code" +
-            "&scope=snsapi_userinfo&state=STATE" +
+            "&scope=snsapi_base&state=STATE" +
             "&connect_redirect=1#wechat_redirect";
 
     public static final String BAIDU_URL = "https://www.baidu.com/";

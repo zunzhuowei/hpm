@@ -8,8 +8,12 @@
 <!--   		,maximum-scale=1.0,ouser-scalable=no -->
 <title>薪酬</title>
 <script src="<@s.url '/js/jquery-1.8.3.min.js'/>" type="text/javascript"></script>
+<script src="<@s.url '/js/ui/miniui.js'/>" type="text/javascript"></script>
 <script src="<@s.url '/marry/js/bootstrap.min.js'/>" type="text/javascript"></script>
 <link rel="stylesheet" href="<@s.url '/marry/css/bootstrap.min.css'/>">
+<link rel="stylesheet" href="<@s.url '/js/ui/themes/default/miniui.css'/>">
+<link rel="stylesheet" href="<@s.url '/js/ui/themes/pure/skin.css'/>">
+<link rel="stylesheet" href="<@s.url '/js/ui/themes/icons.css'/>">
 <style type="text/css">
 .png{
 	width:50px;
@@ -42,19 +46,7 @@
 	<div class="container">
 		<div class="row">
 			<div class="list-group panel-group" id="accordion">
-				<a class="list-group-item" data-toggle="collapse" data-parent="#accordion" 
-				   href="#collapse1">
-					1.基本信息
-				</a>
-				<div id="collapse1" class="panel-collapse collapse">
-					<div class="panel-body">
-						<p>员工姓名：xxx</p>
-						<p>部门：运营中心-实施部</p>
-						<p>岗位：交付经理</p>
-						<p>发放日期：2016-10-15</p>
-					</div>
-				</div>
-				<a class="list-group-item" data-toggle="collapse" data-parent="#accordion" 
+				<a class="list-group-item" data-toggle="collapse" data-parent="#accordion"
 				   href="#collapse3">
 					2.应发
 				</a>
@@ -62,6 +54,13 @@
 					<div class="panel-body table-responsive">
 						<table class="table">
 							<thead>
+                                <tr>
+                                    <th colspan="2" style="text-align: center;"><#--  value="cn" -->
+                                        <input id="sendDateId" class="mini-combobox" style="width:120px;" textField="sendDate" format="yyyy-MM-dd"
+                                               valueField="sendDate" emptyText="请选择发放日期..." url="../salary/send/date?A0100=${user.A0100}"
+                                               required="false" allowInput="false" onvaluechanged="getSalaryByA0100"/>
+                                    </th>
+                                </tr>
 								<tr>
 									<th>费用</th>
 									<th>金额</th>
@@ -69,96 +68,8 @@
 							</thead>
 							<tbody>
 								<tr class="active">
-									<td>固定工资（不包括车补）</td>
-									<td>2314.23</td>
-								</tr>
-								<tr class="success">
-									<td>浮动工资</td>
-									<td>1234</td>
-								</tr>
-								<tr class="warning">
-									<td>补发上月工资</td>
-									<td>2134</td>
-								</tr>
-								<tr class="danger">
-									<td>固定工资2</td>
-									<td>21423</td>
-								</tr>
-								<tr class="active">
-									<td>车补</td>
-									<td>2314.23</td>
-								</tr>
-								<tr class="success">
-									<td>加班费合计</td>
-									<td>1234</td>
-								</tr>
-								<tr class="warning">
-									<td>年终结算加班费</td>
-									<td>2134</td>
-								</tr>
-								<tr class="danger">
-									<td>其他补税前</td>
-									<td>21423</td>
-								</tr>
-								<tr class="active">
-									<td>其他补税后</td>
-									<td>2314.23</td>
-								</tr>
-								<tr class="success">
-									<td>笔记本租赁费</td>
-									<td>1234</td>
-								</tr>
-								<tr class="warning">
-									<td>独生子女费</td>
-									<td>2134</td>
-								</tr>
-								<tr class="danger">
-									<td>高温补贴</td>
-									<td>21423</td>
-								</tr>
-								<tr class="active">
-									<td>驻外津贴</td>
-									<td>2314.23</td>
-								</tr>
-								<tr class="success">
-									<td>客服补贴</td>
-									<td>1234</td>
-								</tr>
-								<tr class="warning">
-									<td>节日补贴</td>
-									<td>2134</td>
-								</tr>
-								<tr class="danger">
-									<td>夜班补贴</td>
-									<td>21423</td>
-								</tr>
-								<tr class="active">
-									<td>项目奖金</td>
-									<td>2314.23</td>
-								</tr>
-								<tr class="success">
-									<td>伯乐奖</td>
-									<td>1234</td>
-								</tr>
-								<tr class="warning">
-									<td>采购提成A</td>
-									<td>2134</td>
-								</tr>
-								<tr class="danger">
-									<td>采购提成B</td>
-									<td>21423</td>
-								</tr>
-								<tr class="active">
-									<td>销售提成奖A</td>
-									<td>2314.23</td>
-								</tr>
-								<tr class="success">
-									<td>销售提成奖B</td>
-									<td>1234</td>
-								</tr>
-								<tr class="warning">
-									<td>应发合计</td>
-									<td>312534</td>
+									<td>应发</td>
+									<td id="yingfa">--</td>
 								</tr>
 							</tbody>
 						</table>
@@ -281,11 +192,26 @@
 			</div>
 		</div>
 	</div>
-	
+<script type="text/javascript">
+    mini.parse();
 
-	
+    function getSalaryByA0100() {
+		var salaryDate = this.getValue();
 
-	
+        $.ajax({
+            url: "../salary/get/list",
+            type: "post",
+            data: {
+                salaryDate: salaryDate,
+                A0100: "${user.A0100}"
+            },
+            success: function (data) {
+                $("#yingfa").text(data + " 元");
+            }
+        });
+    }
+
+</script>
 	
 </body>
 </html>
